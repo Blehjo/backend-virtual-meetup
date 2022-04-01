@@ -94,7 +94,6 @@ const typeDefs = gql`
     event(group: ID!): Event
     postTest: [Post]
     posts(user: ID!): [Post]
-    posts(event: ID!): [Post]
     post(post: ID!): Post
     comments(post: ID!): [Comment]
     me: User
