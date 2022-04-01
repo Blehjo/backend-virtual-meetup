@@ -9,6 +9,7 @@ const commentSchema = new Schema({
     commentDate: {
         type: Date,
         required: true,
+        default: Date.now,
     },
     post: {
         type: Schema.Types.ObjectId,

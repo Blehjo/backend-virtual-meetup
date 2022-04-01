@@ -5,6 +5,10 @@ const groupSchema = new Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: true,
+    },
     event: {
         type: Schema.Types.ObjectId,
         ref:'Event'

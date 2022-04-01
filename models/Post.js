@@ -10,7 +10,7 @@ const postSchema = new Schema({
        require: true, 
     },
     date: {
-        type:Date,
+        type: Date,
         require: true,
         default: Date.now,
     },

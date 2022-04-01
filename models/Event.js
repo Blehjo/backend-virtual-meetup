@@ -12,7 +12,7 @@ const eventSchema = new Schema({
     },
     lobbyCode: {
         type: String,
-        required: true
+        required: false
     },
     description: {
         type: String,
