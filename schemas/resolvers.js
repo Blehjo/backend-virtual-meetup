@@ -138,41 +138,35 @@ const resolvers = {
       parent,
       {
         firstName,
+        lastName,
+        gender,
         photo,
-        attachmentStyle,
-        genderIdentity,
-        genderInterests,
         bio,
         birthdate,
-        pronouns,
-        sexualOrientation,
         currentCity,
+        platforms,
         user,
       },
       context
     ) => {
       if (context.user) {
-        const profile = await Profile.create(
-          {
-            firstName,
-            photo,
-            attachmentStyle,
-            genderIdentity,
-            genderInterests,
-            bio,
-            birthdate,
-            pronouns,
-            sexualOrientation,
-            currentCity,
-            user,
-          }
-        );
+        const profile = await Profile.create({
+          firstName,
+          lastName,
+          gender,
+          photo,
+          bio,
+          birthdate,
+          currentCity,
+          platforms,
+          user,
+        });
         return profile;
       }
       throw new AuthenticationError("You need to be logged in!");
     },
 
-    // updateProfile: async
+    // update user's Profile
     updateProfile: async (parent, args, context) => {
       if (context.user) {
         return await Profile.findOneAndUpdate(
@@ -180,15 +174,13 @@ const resolvers = {
           {
             $set: {
               firstName: args.firstName,
+              lastName: args.lastName,
+              gender: args.gender,
               photo: args.photo,
-              attachmentStyle: args.attachmentStyle,
-              genderIdentity: args.genderIdentity,
-              genderInterests: args.genderInterests,
               bio: args.bio,
               birthdate: args.birthdate,
-              pronouns: args.pronouns,
-              sexualOrientation: args.sexualOrientation,
               currentCity: args.currentCity,
+              platforms: args.platforms,
             },
           },
           { new: true }
@@ -197,61 +189,224 @@ const resolvers = {
       throw new AuthenticationError("You need to be logged in!");
     },
 
-    // add a thread
-    addThread: async (
-      parent,
-      { text, user, match,},
-      context
-    ) => {
+    // deletes user's profile
+    removeProfile: async (parent, { profileId }, context) => {
       if (context.user) {
-        const thread = await Thread.create({
-          text,
-          user,
-          match,
-        })
-        return thread;
-      }
-      throw new AuthenticationError("You need to be logged in!");
-    },
-
-    // delete a thread by the id
-    removeThread: async (parent, { threadId }, context) => {
-      if (context.user) {
-        const deleteThread = await Thread.findOneAndDelete(
-          { _id: threadId }
+        const deletedProfile = await Profile.findOneAndDelete(
+          { _id: profileId }
         );
-        return deleteThread;
+        return deletedProfile;
       }
       throw new AuthenticationError("You need to be logged in!");
     },
 
-    // add a message
-    addMessage: async (
+    // add a group
+    addGroup: async (
       parent,
-      {text, date, thread, user },
+      { 
+        groupName, 
+        description, 
+        event, 
+        profile, 
+        user,
+      },
       context
     ) => {
       if (context.user) {
-        const message = await Message.create({
-          text,
-          date,
-          thread,
+        const group = await Group.create({
+          groupName, 
+          description, 
+          event, 
+          profile, 
           user,
         });
-        return message;
+        return group;
       }
       throw new AuthenticationError("You need to be logged in!");
     },
 
-    // delete a message by id look at activity 12 resolvers
-    removeMessage: async (parent, { messageId }, context) => {
+    // updateGroup
+    updateGroup: async (parent, args, context) => {
       if (context.user) {
-        return Message.findOneAndDelete(
-          { _id: messageId }
+        return await Group.findOneAndUpdate(
+          { _id: args.groupId },
+          {
+            $set: {
+              groupName: args.groupName, 
+              description: args.description, 
+            },
+          },
+          { new: true }
         );
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+
+    // delete a group by the id
+    removeGroup: async (parent, { groupId }, context) => {
+      if (context.user) {
+        const deletedGroup = await Group.findOneAndDelete(
+          { _id: groupId }
+        );
+        return deletedGroup;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // add an event
+    addEvent: async (
+      parent,
+      {
+        eventName, 
+        eventDate, 
+        lobbyCode, 
+        description, 
+        group, 
+        profile, 
+        user, 
+      },
+      context
+    ) => {
+      if (context.user) {
+        const event = await Event.create({
+          eventName, 
+          eventDate, 
+          lobbyCode, 
+          description, 
+          group, 
+          profile, 
+          user,
+        });
+        return event;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // update an event
+    updateEvent: async (parent, args, context) => {
+      if (context.user) {
+        return await Event.findOneAndUpdate(
+          { _id: args.eventId },
+          {
+            $set: {
+              eventName: args.eventName, 
+              eventDate: args.eventDate, 
+              lobbyCode: args.lobbyCode, 
+              description: args.description,  
+            },
+          },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // delete an event by id (look at activity 12 resolvers)
+    removeEvent: async (parent, { eventId }, context) => {
+      if (context.user) {
+        return Event.findOneAndDelete(
+          { _id: eventId }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // add a post
+    addPost: async (parent, {
+      title,
+      content,
+      date,
+      user,
+    }, 
+    context
+    ) => {
+      if (context.user) {
+        const post = await Post.create({
+          title,
+          content,
+          date,
+          user,
+        });
+        return post;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // update a post
+    updatePost: async (parent, args, context) => {
+      if (context.user) {
+        return await Post.findOneAndUpdate(
+          { _id: args.postId },
+          {
+            $set: {
+              title: args.title, 
+              content: args.content,  
+            },
+          },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // remove a post
+    removePost: async (parent, { postId }, context) => {
+      if (context.user) {
+        return Post.findOneAndDelete(
+          { _id: postId }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // add a comment
+    addComment: async (parent, {
+      comment,
+      commentDate,
+      post,
+      user,
+    },
+    context
+    ) => {
+      if (context.user) {
+        const comment = await Comment.create(
+          {
+            comment,
+            commentDate,
+            post,
+            user,
+          }
+        );
+        return comment;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // update a comment
+    updateComment: async (parent, args, context) => {
+      if (context.user) {
+        return await Comment.findOneAndUpdate(
+          { _id: args.commentId },
+          {
+            $set: {
+              comment: args.comment,  
+            },
+          },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+
+    removeComment: async (parent, { commentId }, context) => {
+      if (context.user) {
+        return Comment.findOneAndDelete(
+          { _id: commentId }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+
   },
 };
 
