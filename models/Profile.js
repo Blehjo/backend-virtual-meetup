@@ -34,10 +34,10 @@ const profileSchema = new Schema({
         type: String,
         required: true,
     },
-    user:{
-        type:Schema.Types.ObjectId,
+    user: {
+        type: Schema.Types.ObjectId,
         ref:'User'
-    }
+    },
 })
 
 const Profile = model('Profile', profileSchema);

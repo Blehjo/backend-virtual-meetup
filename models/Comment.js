@@ -6,7 +6,7 @@ const commentSchema = new Schema({
         required: true,
         trim: true,
     },
-    postDate: {
+    commentDate: {
         type: Date,
         required: true,
     },
@@ -20,6 +20,6 @@ const commentSchema = new Schema({
     }
 })
 
-const Comment = model('Event', commentSchema);
+const Comment = model('Comment', commentSchema);
 
 module.exports = Comment;
