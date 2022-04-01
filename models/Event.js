@@ -10,16 +10,20 @@ const eventSchema = new Schema({
         type: Date,
         required: true,
     },
+    lobbyCode: {
+        type: String,
+        required: true
+    },
     description: {
         type: String,
         required: true,
     },
     group: {
-        type:Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref:'Group',
     }
 })
 
-const Group = model('Group', groupSchema);
+const Event = model('Event', eventSchema);
 
-module.exports = Group;
+module.exports = Event;
