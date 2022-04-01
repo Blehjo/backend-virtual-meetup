@@ -21,7 +21,15 @@ const eventSchema = new Schema({
     group: {
         type: Schema.Types.ObjectId,
         ref:'Group',
-    }
+    },
+    profile: {
+        type: Schema.Types.ObjectId,
+        ref: 'Profile',
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
 })
 
 const Event = model('Event', eventSchema);

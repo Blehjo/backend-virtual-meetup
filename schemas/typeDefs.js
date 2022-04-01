@@ -54,6 +54,8 @@ const typeDefs = gql`
     lobbyCode: String
     description: String!
     group: Group
+    profile: Profile
+    user: User
   }
 
   type Post {
@@ -83,16 +85,17 @@ const typeDefs = gql`
     user(id: ID!): User
     profiles: [Profile]
     profile(id: ID!): Profile
-    userprofile(user:ID!): Profile
+    userprofile(user: ID!): Profile
     groupsTest: [Group]
-    groups(user: ID!): [Group]
-    groups(event: ID!): [Group]
+    groups: [Group]
+    group(id: ID!): Group
     eventTest: [Event]
-    event(id: ID!): Event
+    events: [Event]
     event(group: ID!): Event
     postTest: [Post]
     posts(user: ID!): [Post]
     posts(event: ID!): [Post]
+    post(post: ID!): Post
     comments(post: ID!): [Comment]
     me: User
   }
@@ -152,6 +155,8 @@ const typeDefs = gql`
       lobbyCode: String
       description: String!
       group: ID
+      profile: ID
+      user: ID
     ): Event
 
     updateEvent(
