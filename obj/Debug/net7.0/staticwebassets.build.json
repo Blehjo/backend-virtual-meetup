@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "2AJvClC6quphuOBepeaDyHR63VKzqFil0TF3fMERzf8=",
+  "Source": "planetnineserver",
+  "BasePath": "_content/planetnineserver",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "planetnineserver/wwwroot",
+      "Source": "planetnineserver",
+      "ContentRoot": "/Users/blehjo/projects/planetninesolution/planetnineserver/wwwroot/",
+      "BasePath": "_content/planetnineserver",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}
